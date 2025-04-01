@@ -35,21 +35,18 @@ if url_to_visit:
 
 # Automatically run Streamlit if the script is executed directly (for the .exe version)
 if __name__ == '__main__':
-    import sys, os, tempfile
-    import streamlit.web.cli as stcli
+    import sys, subprocess, webbrowser
     # If running as a bundled executable, sys.frozen will be True.
     if getattr(sys, 'frozen', False):
-        # Running as a bundled executable; create a temporary .py file for Streamlit to run.
-        try:
-            with open(__file__, "rb") as f:
-                code = f.read()
-        except Exception as e:
-            code = b""
-        with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
-            tmp.write(code)
-            tmp_filename = tmp.name
-        sys.argv = ["streamlit", "run", tmp_filename]
-        sys.exit(stcli.main())
+        # Running as a bundled executable; start the Streamlit server using a subprocess.
+        # sys.executable is the path to the bundled .exe.
+        cmd = [sys.executable, "-m", "streamlit", "run", sys.argv[0], "--server.port", "8502"]
+        subprocess.Popen(cmd)
+        # Optionally, open the browser after a short delay.
+        time.sleep(3)
+        webbrowser.open("http://localhost:8502")
+        sys.exit(0)
     else:
-        sys.argv = ["streamlit", "run", __file__]
+        import streamlit.web.cli as stcli
+        sys.argv = ["streamlit", "run", __file__, "--server.port", "8502"]
         sys.exit(stcli.main())
