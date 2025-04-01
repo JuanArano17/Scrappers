@@ -1,3 +1,4 @@
+# streamlit_interface.py
 import time
 import threading
 import streamlit as st
@@ -35,6 +36,11 @@ if url_to_visit:
 # Automatically run Streamlit if the script is executed directly (for the .exe version)
 if __name__ == '__main__':
     import sys
-    import streamlit.web.cli as stcli
-    sys.argv = ["streamlit", "run", sys.argv[0]]
-    sys.exit(stcli.main())
+    # If running as a bundled executable, sys.argv[0] won't end with ".py"
+    if not sys.argv[0].endswith('.py'):
+        # Running from a bundled .exe; run the app using the internal Streamlit runner
+        st._run()
+    else:
+        import streamlit.web.cli as stcli
+        sys.argv = ["streamlit", "run", sys.argv[0]]
+        sys.exit(stcli.main())
