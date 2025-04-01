@@ -11,31 +11,27 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.12.8'
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.8'
 
-    - name: Change to project directory
-      run: cd visits_farmer
+      - name: Install dependencies
+        working-directory: visits_farmer
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Build Executable with PyInstaller
+        working-directory: visits_farmer
+        run: |
+          pyinstaller --onefile --noconsole streamlit_interface.py
 
-    - name: Build Executable with PyInstaller
-      run: |
-        pyinstaller --onefile --noconsole streamlit_interface.py
-
-    - name: Change to repo directory
-      run: cd ..
-
-    - name: Upload Executable
-      uses: actions/upload-artifact@v4
-      with:
-        name: WindowsExecutable
-        path: dist/streamlit_interface.exe
+      - name: Upload Executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: WindowsExecutable
+          path: visits_farmer/dist/streamlit_interface.exe
