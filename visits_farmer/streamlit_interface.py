@@ -31,3 +31,10 @@ if url_to_visit:
         for thread in threads:
             thread.join()
         st.success("All scrapers have completed their visits!")
+
+# Automatically run Streamlit if the script is executed directly (for the .exe version)
+if __name__ == '__main__':
+    import sys
+    import streamlit.web.cli as stcli
+    sys.argv = ["streamlit", "run", sys.argv[0]]
+    sys.exit(stcli.main())
