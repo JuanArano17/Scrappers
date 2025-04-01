@@ -28,7 +28,7 @@ jobs:
       - name: Build Executable with PyInstaller
         working-directory: visits_farmer
         run: |
-          pyinstaller --onefile --noconsole streamlit_interface.py
+          pyinstaller --onefile --noconsole --collect-all streamlit streamlit_interface.py
 
       - name: Upload Executable
         uses: actions/upload-artifact@v4
