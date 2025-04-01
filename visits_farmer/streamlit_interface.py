@@ -20,13 +20,13 @@ if url_to_visit:
     if st.button("Start Bot"):
         st.info("The bot is running...")
         threads = []
-        # Launch a new scraper every 5 seconds in parallel until the specified number of iterations is reached
+        # Launch scrapers in parallel with a 5-second interval
         for i in range(iterations):
             st.write(f"Starting scraper {i+1} of {iterations}")
             thread = threading.Thread(target=visit_url, args=(url_to_visit, show_execution))
             thread.start()
             threads.append(thread)
-            time.sleep(5)  # Wait 5 seconds before starting the next scraper
+            time.sleep(5)  # Wait before starting the next scraper
         # Wait for all scrapers to complete
         for thread in threads:
             thread.join()

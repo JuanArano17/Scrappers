@@ -10,9 +10,7 @@ from dotenv import load_dotenv
 
 # Load environment variables from the .env file
 load_dotenv()
-URL = os.getenv("URL_TO_VISIT")
-if not URL:
-    URL = "https://google.com"
+URL = os.getenv("URL_TO_VISIT", "https://google.com")
 
 def visit_url(url, show_execution):
     """
@@ -29,27 +27,21 @@ def visit_url(url, show_execution):
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")
 
-    # Initialize the ChromeDriver using Service
+    # Initialize the ChromeDriver
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
     
     driver.get(url)
+    time.sleep(2)  # Allow the page to load
     
-    # Initial wait to allow the page to load
-    time.sleep(2)
-    
-    # Simulate scrolling to the middle of the page
+    # Simulate scrolling and clicking
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight/2);")
     time.sleep(2)
-    
-    # Simulate a light click on the body of the page
     try:
         body = driver.find_element(By.TAG_NAME, 'body')
         body.click()
     except Exception as e:
         print("Error during click:", e)
     
-    # Remaining wait to ensure a total duration of 12 seconds (2+2+8 = 12)
-    time.sleep(8)
-    
+    time.sleep(8)  # Ensure a total duration of 12 seconds
     driver.quit()
