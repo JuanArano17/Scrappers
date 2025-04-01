@@ -32,7 +32,7 @@ jobs:
         pyinstaller --onefile --noconsole streamlit_interface.py
 
     - name: Change to repo directory
-      run: cd.. visits_farmer
+      run: cd..
 
     - name: Upload Executable
       uses: actions/upload-artifact@v3
