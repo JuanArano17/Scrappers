@@ -48,8 +48,8 @@ if __name__ == '__main__':
         with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
             tmp.write(code)
             tmp_filename = tmp.name
-        sys.argv = ["streamlit", "run", tmp_filename]
+        sys.argv = ["streamlit", "run", tmp_filename,  "--server.port", "8502"]
         sys.exit(stcli.main())
     else:
-        sys.argv = ["streamlit", "run", __file__]
+        sys.argv = ["streamlit", "run", __file__, "--server.port", "8502"]
         sys.exit(stcli.main())
