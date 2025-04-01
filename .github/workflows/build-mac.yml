@@ -2,9 +2,9 @@ name: Build macOS App
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12.8'
+          python-version: "3.12.8"
 
       - name: Install dependencies
         working-directory: visits_farmer
@@ -28,11 +28,10 @@ jobs:
       - name: Build macOS App with PyInstaller
         working-directory: visits_farmer
         run: |
-          pyinstaller --onefile --windowed streamlit_interface.py
+            pyinstaller --onefile --windowed streamlit_interface.py
 
       - name: Upload macOS App
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
-          name: macOSApp
-          # Ajusta el path según la salida que genere PyInstaller, por ejemplo:
-          path: visits_farmer/dist/streamlit_interface
+            name: macOSApp
+            path: visits_farmer/dist/streamlit_interface
