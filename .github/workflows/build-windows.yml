@@ -31,8 +31,11 @@ jobs:
       run: |
         pyinstaller --onefile --noconsole streamlit_interface.py
 
+    - name: Change to repo directory
+      run: cd.. visits_farmer
+
     - name: Upload Executable
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: WindowsExecutable
         path: dist/streamlit_interface.exe
