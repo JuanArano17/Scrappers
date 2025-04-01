@@ -28,7 +28,7 @@ jobs:
       - name: Build macOS App with PyInstaller
         working-directory: visits_farmer
         run: |
-            pyinstaller --onefile --windowed streamlit_interface.py
+            pyinstaller --onefile --noconsole --collect-all streamlit streamlit_interface.py
 
       - name: Upload macOS App
         uses: actions/upload-artifact@v4
